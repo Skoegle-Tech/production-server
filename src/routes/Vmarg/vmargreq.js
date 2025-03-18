@@ -8,6 +8,8 @@ const Alert = require("./Alert");
 const DeviceLogs = async (req, res) => {
   try {
     const { deviceName, latitude, longitude, date, time, main, battery } = req.body;
+  
+
     console.log(main, battery)
   
     const geoFencings = await GeoFencing.findOne({ deviceName });
@@ -30,7 +32,7 @@ const DeviceLogs = async (req, res) => {
     // Fixed line - using findOneAndUpdate instead of findByIdAndUpdate
     await GeoFencing.findOneAndUpdate(
       { deviceName },
-      { main: parseInt(main), battery: parseInt(battery) },
+      { main: parseFloat(main), battery: parseFloat(battery) },
       { new: true }
     );
     
@@ -72,7 +74,7 @@ const DeviceLogs = async (req, res) => {
     console.log(geofencing?.status, geofencing?.activated);
     
     if(geofencing?.activated) {
-       Alert(deviceName, geofencing?.status, distance,latitude,longitude);
+      //  Alert(deviceName, geofencing?.status, distance,latitude,longitude);
       return res.status(201).json({ message: "Logs Created", geofencing, location });
     }
 
