@@ -25,7 +25,7 @@ const allowedOrigins = [
   "https://vmarg2.0.skoegle.com",
   "https://ram-obliging-pup.ngrok-free.app/test",
   "https://v-marg2-0.onrender.com",
-  "qa-vmarg.skoegle.com"
+ "https://qa-vmarg.skoegle.com"
 ];
 
 // Dynamically allow all localhost origins
