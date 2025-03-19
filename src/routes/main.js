@@ -26,6 +26,7 @@ router.post("/auth/login", Login);
 router.get("/auth/user/verif", verifyJWTAndDevice);
 router.get("/auth/user/logout", verifyDevice, logout);
 
+
 router.put("/user/devices/addDevices/:custommerId",addUserDevices);
 router.get("/user/devices/getdevices",verifyDevice,getDevices)
 router.delete("/user/devices/deleteuser/:custommerId",deleteDevices)
