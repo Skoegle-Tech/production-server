@@ -110,8 +110,7 @@ const SignUp = async (req, res) => {
 const verifyJWTAndDevice = async (req, res) => {
 
   const authHeader = req.headers.authorization; 
-  const token = authHeader.split(" ")[1] || req?.query?.token
-  // console.log(token)
+  const token = authHeader.split(" ")[1] || req?.query?.token;
   try {
     if (!token) {
       return res
@@ -122,14 +121,11 @@ const verifyJWTAndDevice = async (req, res) => {
     const decoded = jwt.verify(token, process.env.JWT_SEC);
     const { custommerId, deviceString } = decoded;
 
-    // console.log(deviceString)
     const validDevice = await DeviceToken.findOne({
       custommerId,
       deviceString,
     });
-    // console.log(validDevice)
     const userdata = await User.findOne({custommerId})
-    // console.log(userdata)
     if (!validDevice) {
       res.clearCookie("auth_token", {
         httpOnly: true,
@@ -154,12 +150,6 @@ const logout = async (req, res) => {
   try {
     const { custommerId, deviceString } = req.user;
 
-    if (!custommerId || !deviceString) {
-      return res.status(400).send({
-        message: "Bad Request: Missing customer or device details",
-        valid: false,
-      });
-    }
 
     const deletedDevice = await DeviceToken.findOneAndDelete({
       custommerId,
@@ -172,11 +162,6 @@ const logout = async (req, res) => {
       });
     }
 
-    res.clearCookie("auth_token", {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: process.env.NODE_ENV === "production" ? "Strict" : "Lax",
-    });
 
     res.status(200).send({ message: "Logout successful", valid: true });
   } catch (error) {
