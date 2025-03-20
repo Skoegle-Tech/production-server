@@ -74,7 +74,7 @@ const DeviceLogs = async (req, res) => {
     console.log(geofencing?.status, geofencing?.activated);
     
     if(geofencing?.activated) {
-      //  Alert(deviceName, geofencing?.status, distance,latitude,longitude);
+       Alert(deviceName, geofencing?.status, distance,latitude,longitude);
       return res.status(201).json({ message: "Logs Created", geofencing, location });
     }
 

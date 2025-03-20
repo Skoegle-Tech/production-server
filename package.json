@@ -30,6 +30,6 @@
     "pm2": "^5.4.3",
     "pug": "^3.0.3",
     "sequelize": "^6.37.5",
-    "smtp-package": "^2.0.1"
+    "smtp-package": "^4.0.0"
   }
 }
