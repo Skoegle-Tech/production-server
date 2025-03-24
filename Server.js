@@ -23,7 +23,7 @@ const allowedOrigins = [
   "https://d-marg.onrender.com",
   "https://v-marg2-0.onrender.com",
   "https://vmarg2.0.skoegle.com",
-  "https://ram-obliging-pup.ngrok-free.app/test",
+  "https://ram-obliging-pup.ngrok-free.app",
   "https://v-marg2-0.onrender.com",
  "https://qa-vmarg.skoegle.com"
 ];

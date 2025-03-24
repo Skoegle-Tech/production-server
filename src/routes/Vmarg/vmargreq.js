@@ -121,36 +121,36 @@ const addDeviceRealtime= async (req, res) => {
     }
   };
   
- const GetDeviceLogs= async (req, res) => {
-    const { deviceName, fromDate, toDate, fromTime, toTime } = req.query;
+//  const GetDeviceLogs= async (req, res) => {
+//     const { deviceName, fromDate, toDate, fromTime, toTime } = req.query;
   
-    try {
-      const query = { ...(deviceName && { deviceName }) };
+//     try {
+//       const query = { ...(deviceName && { deviceName }) };
   
-      if (fromDate && toDate) {
-        query.date = {
-          $gte: fromDate,
-          $lte: toDate
-        };
-      }
+//       if (fromDate && toDate) {
+//         query.date = {
+//           $gte: fromDate,
+//           $lte: toDate
+//         };
+//       }
   
-      if (fromTime && toTime) {
-        query.time = {
-          $gte: fromTime,
-          $lte: toTime
-        };
-      }
+//       if (fromTime && toTime) {
+//         query.time = {
+//           $gte: fromTime,
+//           $lte: toTime
+//         };
+//       }
   
-      console.log("Query:", query); // Debugging the query being sent
+//       console.log("Query:", query); // Debugging the query being sent
   
-      const logs = await Log.find(query).sort({ date: 1, time: 1 }).select("deviceName latitude longitude date time");
+//       const logs = await Log.find(query).sort({ date: 1, time: 1 }).select("deviceName latitude longitude date time");
   
-      res.status(200).json(logs);
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ message: "Error fetching logs", error });
-    }
-  };
+//       res.status(200).json(logs);
+//     } catch (error) {
+//       console.error(error);
+//       res.status(500).json({ message: "Error fetching logs", error });
+//     }
+//   };
   
   // Get Route (GET /logs)
 //   app.get("/logs", async (req, res) => {
@@ -162,7 +162,32 @@ const addDeviceRealtime= async (req, res) => {
 //     }
 //   });
   
+const GetDeviceLogs = async (req, res) => {
+  const { deviceName, date } = req.query;
+
+  try {
+      if (!deviceName || !date) {
+          return res.status(400).json({ message: "deviceName and date are required" });
+      }
+
+      // Construct query to filter logs for the given device and date
+      const query = {
+          deviceName,
+          date
+      };
+
   
+      const logs = await Log.find(query)
+          .sort({ time: 1 }) // Sorting by time in ascending order
+          .select("deviceName latitude longitude date time");
+
+      res.status(200).json(logs);
+  } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: "Error fetching logs", error });
+  }
+};
+
   const GetRealtime =async(req,res)=>{
   
     const deviceName = req.params.deviceName;
