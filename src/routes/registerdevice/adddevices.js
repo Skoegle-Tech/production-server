@@ -84,7 +84,7 @@ const AddDeviceforRegister = async (req, res) => {
       // Step 1: Check if the device exists and matches the provided deviceName and deviceCode
       const device = await Device.findOne({ deviceName, deviceCode });
       if (!device) {
-        return res.json({ message: 'Device not found or incorrect details provided' });
+        return res.status(400).json({ message: 'Device not found or incorrect details provided' });
       }
   
       // Step 2: Find the user by custommerId
