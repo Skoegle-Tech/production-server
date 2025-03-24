@@ -1,5 +1,5 @@
 const InitializeSmtpConnection = require("smtp-package");
-const { sendCustomMail } = InitializeSmtpConnection(process.env.SMTP_PROVIDER, process.env.SMTP_PROVIDER_API_KEY);
+const { sendCustomMessageByEmail } = InitializeSmtpConnection(process.env.SMTP_PROVIDER, process.env.SMTP_PROVIDER_API_KEY);
 const findUsersByDeviceName = require("./GetUserDetails");
 
 async function Alert(device, geofencingstatus, distance, latitude, longitude) {
@@ -30,7 +30,7 @@ Alert Time (UTC): ${currentDateTime}
 
 You can track your device in real-time by clicking on the link above.`;
           
-          await sendCustomMail(
+          await sendCustomMessageByEmail(
             user.userDetails.email,
             "Geofencing Alert",
             emailMessage
