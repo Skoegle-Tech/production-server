@@ -40,7 +40,7 @@ const Login = async (req, res) => {
     const token = jwt.sign(
       { custommerId: user.custommerId, deviceString },
       process.env.JWT_SEC,
-      { expiresIn: "2h" }
+      { expiresIn: "10d" }
     );
 // console.log(token)
     // const isProduction = process.env.NODE_ENV === "production";
