@@ -5,6 +5,8 @@ const {
   Login,
   verifyJWTAndDevice,
   logout,
+  ForgotPassword,
+  ResetPassword,
 } = require("./Auth/UserAuth");
 const { addUserDevices, getDevices, deleteDevices } = require("./userDevices/userDevices");
 const { getUserProfile, UpdateUserProfile, VerifiPasword } = require("./Profile/userProfile");
@@ -25,7 +27,8 @@ router.post("/auth/Signup", SignUp);
 router.post("/auth/login", Login);
 router.get("/auth/user/verif", verifyJWTAndDevice);
 router.get("/auth/user/logout", verifyDevice, logout);
-
+router.post("/auth/forgotpassword",ForgotPassword)
+router.post("/auth/resetpassword",ResetPassword)
 
 router.put("/user/devices/addDevices/:custommerId",addUserDevices);
 router.get("/user/devices/getdevices",verifyDevice,getDevices)

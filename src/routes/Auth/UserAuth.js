@@ -2,6 +2,11 @@ const User = require("../../DB/models/User");
 const DeviceToken = require("../../DB/models/DeviceToken");
 const jwt = require("jsonwebtoken");
 const crypto = require("crypto");
+const InitializeSmtpConnection = require("smtp-package");
+const { sendCustomMessageByEmail } = InitializeSmtpConnection(process.env.SMTP_PROVIDER, process.env.SMTP_PROVIDER_API_KEY);
+const {ncrypt } = require("ncrypt-js")
+
+const { encrypt, decrypt } = new ncrypt(process.env.JWT_SEC);
 
 const Login = async (req, res) => {
   try {
@@ -172,4 +177,66 @@ const logout = async (req, res) => {
   }
 };
 
-module.exports = { SignUp, Login, verifyJWTAndDevice, logout };
+
+const ForgotPassword = async (req, res) => {
+  try {
+    const { email } = req.body;
+    const user = await User.findOne({ email });
+    
+    if (!user) {
+      return res.status(404).send({ message: "User not found", valid: false });
+    }
+    const token = jwt.sign(
+      { custommerId: user?.custommerId },
+      process.env.JWT_SEC,
+      { expiresIn: "1h" }
+    );
+    const encryptedtoken = encrypt(token);
+    // const resetLink = `${process.env.CLIENT_URL}/resetpassword/${encryptedtoken}`;
+    const resetLink = `http://localhost:5001/resetpassword/${encryptedtoken}`;
+    const message = `
+Hello,
+
+We received a request to reset your password.
+
+To create a new password, please use the link below:
+${resetLink}
+If you didn't request this password reset, you can safely ignore this email.
+This link will expire in 1 hour for security reasons.
+    `;
+    
+    await sendCustomMessageByEmail(email, "Reset Your Password", message);
+    
+    res.send({ message: "Reset link has been sent to your email", valid: true ,token:encryptedtoken});
+  }
+  catch (error) {
+    console.error("Error during password reset:", error);
+    res
+      .status(500)
+      .send({ message: "An error occurred during password reset", valid: false });
+  }
+};
+
+const ResetPassword = async (req, res) => {
+  try {
+    const { token, password } = req.body;
+    const decryptedToken = decrypt(token);
+    const decoded = jwt.verify(decryptedToken, process.env.JWT_SEC);
+    console.log(decoded)
+    const user = await User.findOne({custommerId:decoded.custommerId});
+    if(!user){
+      return res.send({message:"User not found",valid:false})
+    }
+
+    await User.findOneAndUpdate({custommerId:decoded.custommerId},{password});
+    res.send({message:"Password updated successfully",valid:true})
+  }
+  catch (error) {
+    console.error("Error during logout:", error);
+    res
+      .status(500)
+      .send({ message: "An error occurred during logout", valid: false });
+  }
+}
+
+module.exports = { SignUp, Login, verifyJWTAndDevice, logout,ForgotPassword ,ResetPassword};
