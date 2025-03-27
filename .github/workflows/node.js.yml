@@ -24,4 +24,5 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
     - run: npm ci
-    - run: pm2 restart Server
+    - run: pm2 reload Server --update-env
+    -run: pm2 list
