@@ -60,7 +60,7 @@ app.post('/post-route', (req, res) => {
 
 
 
-app.get('/:name/:firstname', (req, res) => {
+app.get('/', (req, res) => {
   console.log(req.params);
     res.send({parames:req?.params,quary:req?.query})
   });
