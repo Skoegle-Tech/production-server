@@ -5,7 +5,7 @@ const crypto = require("crypto");
 const InitializeSmtpConnection = require("smtp-package");
 const { sendCustomMessageByEmail } = InitializeSmtpConnection(process.env.SMTP_PROVIDER, process.env.SMTP_PROVIDER_API_KEY);
 const {ncrypt } = require("ncrypt-js")
-
+const axios = require("axios");
 const { encrypt, decrypt } = new ncrypt(process.env.JWT_SEC);
 
 const Login = async (req, res) => {
@@ -198,7 +198,7 @@ const ForgotPassword = async (req, res) => {
     // Step 1: Shorten the URL
     const shortenResponse = await axios.post('https://short.skoegle.com/shorten', {
       url: longResetLink,
-      expireInSeconds: 3600 // 1 hour
+      expireInSeconds: 120 // 1 hour
     }, {
       headers: {
         'Content-Type': 'application/json'
