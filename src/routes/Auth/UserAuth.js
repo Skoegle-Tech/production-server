@@ -182,38 +182,58 @@ const ForgotPassword = async (req, res) => {
   try {
     const { email } = req.body;
     const user = await User.findOne({ email });
-    
+
     if (!user) {
       return res.status(404).send({ message: "User not found", valid: false });
     }
+
     const token = jwt.sign(
       { custommerId: user?.custommerId },
       process.env.JWT_SEC,
       { expiresIn: "1h" }
     );
     const encryptedtoken = encrypt(token);
-    // const resetLink = `${process.env.CLIENT_URL}/resetpassword/${encryptedtoken}`;
-    const resetLink = `https://vmarg.skoegle.com/resetpassword/${encryptedtoken}`;
+    const longResetLink = `https://vmarg.skoegle.com/resetpassword/${encryptedtoken}`;
+
+    // Step 1: Shorten the URL
+    const shortenResponse = await axios.post('https://short.skoegle.com/shorten', {
+      url: longResetLink,
+      expireInSeconds: 3600 // 1 hour
+    }, {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+
+    const shortUrl = shortenResponse.data.shortUrl;
+
+    // Step 2: Compose the email
     const message = `
 Hello,
 
 We received a request to reset your password.
 
 To create a new password, please use the link below:
-${resetLink}
+${shortUrl}
+
 If you didn't request this password reset, you can safely ignore this email.
 This link will expire in 1 hour for security reasons.
     `;
-    
+
     await sendCustomMessageByEmail(email, "Reset Your Password", message);
-    
-    res.send({ message: "Reset link has been sent to your email", valid: true ,token:encryptedtoken});
-  }
-  catch (error) {
+
+    res.send({
+      message: "Reset link has been sent to your email",
+      valid: true,
+      token: encryptedtoken,
+      shortUrl
+    });
+  } catch (error) {
     console.error("Error during password reset:", error);
-    res
-      .status(500)
-      .send({ message: "An error occurred during password reset", valid: false });
+    res.status(500).send({
+      message: "An error occurred during password reset",
+      valid: false
+    });
   }
 };
 
