@@ -193,7 +193,7 @@ const ForgotPassword = async (req, res) => {
     );
     const encryptedtoken = encrypt(token);
     // const resetLink = `${process.env.CLIENT_URL}/resetpassword/${encryptedtoken}`;
-    const resetLink = `http://localhost:5001/resetpassword/${encryptedtoken}`;
+    const resetLink = `https://vmarg.skoegle.com/resetpassword/${encryptedtoken}`;
     const message = `
 Hello,
 
