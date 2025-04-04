@@ -194,7 +194,7 @@ const ForgotPassword = async (req, res) => {
     );
     const encryptedtoken = encrypt(token);
     const longResetLink = `https://vmarg.skoegle.com/resetpassword/${encryptedtoken}`;
-
+console.log(longResetLink)
     // Step 1: Shorten the URL
     const shortenResponse = await axios.post('https://short.skoegle.com/shorten', {
       url: longResetLink,
@@ -206,7 +206,7 @@ const ForgotPassword = async (req, res) => {
     });
 
     const shortUrl = await shortenResponse.data.shortUrl;
-
+console.log(shortUrl)
     // Step 2: Compose the email
     const message = `
 Hello,
