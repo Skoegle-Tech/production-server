@@ -205,7 +205,7 @@ const ForgotPassword = async (req, res) => {
       }
     });
 
-    const shortUrl = shortenResponse.data.shortUrl;
+    const shortUrl = await shortenResponse.data.shortUrl;
 
     // Step 2: Compose the email
     const message = `
