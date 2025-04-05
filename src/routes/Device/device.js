@@ -42,4 +42,7 @@ const DeleteDevice  = async (req, res) => {
   }
 
 
+
+
+
   module.exports={GetDeviceLogin,DeleteDevice}

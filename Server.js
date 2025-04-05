@@ -47,6 +47,7 @@ app.use(cors(corsOptions));
 app.options("*", cors(corsOptions)); // Explicitly handle preflight OPTIONS requests
 
 app.use("/api", router);
+
 app.get("/ping", (req, res) => {
   res.send({ message: "We Got your Request", Loading: false });
 });

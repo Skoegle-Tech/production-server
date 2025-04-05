@@ -44,6 +44,7 @@ const Log = mongoose.model('userLogs', logSchema);
 
 const logRequest = (req, res, next) => {
     if (req.path === '/ping') return next();
+    if (req.path === '/api/device/register') return next();
     
     const start = Date.now();
     res.on('finish', async () => {
