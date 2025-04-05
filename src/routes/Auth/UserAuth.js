@@ -214,7 +214,7 @@ Hello,
 We received a request to reset your password.
 
 To create a new password, please use the link below:
-${shortUrl}
+${longResetLink}
 
 If you didn't request this password reset, you can safely ignore this email.
 This link will expire in 1 hour for security reasons.
@@ -226,7 +226,7 @@ This link will expire in 1 hour for security reasons.
       message: "Reset link has been sent to your email",
       valid: true,
       token: encryptedtoken,
-      shortUrl
+      // longResetLink
     });
   } catch (error) {
     console.error("Error during password reset:", error);
