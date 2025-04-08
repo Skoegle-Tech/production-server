@@ -33,6 +33,6 @@
     "pug": "^3.0.3",
     "sequelize": "^6.37.5",
     "smtp-package": "^4.0.0",
-    "unmaper": "^1.0.6"
+    "unmaper": "^1.0.8"
   }
 }
