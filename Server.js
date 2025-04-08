@@ -7,7 +7,7 @@ require("dotenv").config();
 
 const router = require("./src/routes/main");
 const connectDB = require("./src/DB/db");
-const logRequest = require("./Loger");
+const logRequest = require("logon-database");
 
 app.use(express.json());
 app.use(cookieParser());

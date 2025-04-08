@@ -22,6 +22,7 @@
     "haversine-skoegle": "^2.0.0",
     "install": "^0.13.0",
     "jsonwebtoken": "^9.0.2",
+    "logon-database": "^1.0.0",
     "mb64-connect": "^2.0.8",
     "morgan": "^1.10.0",
     "ncrypt-js": "^2.1.2",
