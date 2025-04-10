@@ -8,7 +8,7 @@ require("dotenv").config();
 const router = require("./src/routes/main");
 const connectDB = require("./src/DB/db");
 const logRequest = require("logon-database");
-
+const unmaper = require("unmaper")
 app.use(express.json());
 app.use(cookieParser());
 app.use(morgan("dev"));
@@ -48,17 +48,7 @@ app.options("*", cors(corsOptions)); // Explicitly handle preflight OPTIONS requ
 
 app.use("/api", router);
 
-app.get("/ping", (req, res) => {
-  res.send({ message: "We Got your Request", Loading: false });
-});
-
-
-app.post('/post-route', (req, res) => {
-  console.log(req.body);
-  res.send(req.body);
-});
-
-
+app.get("/ping", unmaper);
 
 
 app.get('/', (req, res) => {
@@ -66,8 +56,6 @@ app.get('/', (req, res) => {
     res.send({parames:req?.params,quary:req?.query})
   });
   
-
-
 connectDB();
 
 app.listen(process.env.PORT, () => {

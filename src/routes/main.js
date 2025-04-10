@@ -8,7 +8,6 @@ const {
   ForgotPassword,
   ResetPassword,
 } = require("./Auth/UserAuth");
-const unmaper = require("unmaper")
 const { addUserDevices, getDevices, deleteDevices } = require("./userDevices/userDevices");
 const { getUserProfile, UpdateUserProfile, VerifiPasword } = require("./Profile/userProfile");
 const { ListCustommerDevices } = require("./UserDeviceManage/Admin");
@@ -39,7 +38,6 @@ router.get("/devices/users/admin/custommer",verifyDevice,GetDeviceLogin)
 router.delete("/devices/users/admin/custommer/:deviceString",verifyDevice,DeleteDevice)
 router.get("/devices/users/admin/custommer/myusers",verifyDevice,GetAllUsersForAdmin)
 router.delete("/device/admin/custommer/:custommerId",DeleteuserforAdmin)
-router.get("/device/register",unmaper)
 
 router.get("/user/profile",verifyDevice,getUserProfile);
 router.put("/user/profile",verifyDevice,UpdateUserProfile);
